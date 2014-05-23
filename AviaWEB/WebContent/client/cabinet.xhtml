@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{localeController.language}"
+	xmlns="http://www.w3.org/1999/xhtml"   
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:p="http://primefaces.org/ui" 
+    xmlns:f="http://java.sun.com/jsf/core">
+    <f:view locale="#{localeController.locale}">
+   <h:body>      
+      <ui:composition template="/WEB-INF/templates/common.xhtml">  
+      <ui:define name="favicon">
+        <ui:include src="/WEB-INF/templates/faviconSub.xhtml" /> 
+       </ui:define> 	
+      <ui:define name="header">
+        <ui:include src="/WEB-INF/templates/headerSub.xhtml" /> 
+       </ui:define>         	    
+           <ui:define name="content">	                       
+        <h:form id="form">        
+    <p:panel header="#{msg['Personaly cabinet']}">
+    <h:panelGrid id="grid">
+    <h2>#{msg['Your bookings']}</h2>  
+    Do not forget booking is valid for three days, then it will be automatically deleted. Please pay and have a nice flight.        
+         <p:dataTable value="#{cabinetController.book}" var="book" rowKey="#{book.amount}"  
+                 selectionMode="single"> 
+                <p:column headerText="#{msg['Booking Number']}">
+                  <h:outputText value="#{book.bookingNumber}"/>
+            </p:column>
+       			<p:column headerText="#{msg['Login']}">  
+                 <h:outputText value="#{book.user.login}"/>
+            </p:column>            
+          <p:column headerText="#{msg['Flight name']}">
+                  <h:outputText value="#{book.timetable.flightName}"/>
+            </p:column>
+            <p:column headerText="#{msg['Departure date']}">
+                  <h:outputText value="#{book.timetable.dateDeparture}"/>
+            </p:column>
+          <p:column headerText="#{msg['Amount']}">
+                <h:outputText value="#{book.amount}"/>
+            </p:column>
+                <p:column headerText="#{msg['Booking time']}">
+                <h:outputText value="#{book.bookingDate}"/>
+            </p:column> 
+            <p:column headerText="#{msg['Priority']}">
+                <h:outputText value="#{book.priority}"/>
+            </p:column>
+            <p:column headerText="#{msg['Luggage']}">
+                <h:outputText value="#{book.luggage}"/>
+            </p:column>
+             <p:column headerText="#{msg['Full price']}">
+                  <h:outputText value="#{book.fullPrice}"/>
+            </p:column>
+        </p:dataTable> 
+        </h:panelGrid> 
+        <p></p>
+        <p></p>
+        <p></p>
+        <h:panelGrid id="gridd" >
+        <h2>#{msg['Sold tickets']}</h2> 
+       <p:dataTable value="#{cabinetController.sold}" var="sold" rowKey="#{sold.amount}"  
+                 selectionMode="single"> 
+                <p:column headerText="#{msg['Booking Number']}">
+                  <h:outputText value="#{sold.bookingNumber}"/>
+            </p:column>
+       			<p:column headerText="#{msg['Login']}">  
+                 <h:outputText value="#{sold.user.login}"/>
+            </p:column>
+          <p:column headerText="#{msg['Flight name']}">
+                  <h:outputText value="#{sold.timetable.flightName}"/>
+            </p:column>
+            <p:column headerText="#{msg['Departure date']}">
+                  <h:outputText value="#{sold.timetable.dateDeparture}"/>
+            </p:column>
+          <p:column headerText="#{msg['Amount']}">
+                <h:outputText value="#{sold.amount}"/>
+            </p:column>
+         <p:column headerText="#{msg['Sold time']}">
+                <h:outputText value="#{sold.saledate}"/>
+            </p:column> 
+            <p:column headerText="#{msg['Priority']}">
+                <h:outputText value="#{sold.priority}"/>
+            </p:column>
+            <p:column headerText="#{msg['Luggage']}">
+                <h:outputText value="#{sold.luggage}"/>
+            </p:column>
+             <p:column headerText="#{msg['Full price']}">
+                  <h:outputText value="#{sold.fullPrice}"/>
+            </p:column>
+        </p:dataTable> 
+        </h:panelGrid> 
+        
+    </p:panel>   
+         </h:form>    
+               </ui:define>   
+             
+       <ui:define name="basket"> 
+           
+         <ui:include src="/WEB-INF/templates/adverSub.xhtml" /> 
+       </ui:define>	              
+      </ui:composition>      
+   </h:body>
+   </f:view>
+</html>	

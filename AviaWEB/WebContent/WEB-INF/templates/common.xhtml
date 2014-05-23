@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+   xmlns:ui="http://java.sun.com/jsf/facelets"  
+   xmlns:h="http://java.sun.com/jsf/html">
+	
+   <h:head>
+       <h:outputStylesheet name="css/style.css"  />
+       <ui:insert name="favicon" >
+        <ui:include src="/WEB-INF/templates/favicon.xhtml" /> 
+        </ui:insert>      
+   		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+       </h:head>
+   <h:body> 
+   
+  	 <div id="main">
+  	 <div id="logo">
+        <div id="logo_text">
+        <ui:insert name="header" >
+        <ui:include src="/WEB-INF/templates/header.xhtml" /> 
+        </ui:insert>          
+        </div>    
+    
+      <div id="submenu">
+      <ui:insert name="submenu" >
+            <ui:include src="/WEB-INF/templates/submenu.xhtml" />
+         </ui:insert>                 
+        </div>
+        </div>
+        
+        <div id="nav">
+        <ul class="sf-menu" id="nav">
+        <ui:insert name="menu" >
+            <ui:include src="/WEB-INF/templates/menu.xhtml" />
+         </ui:insert> 
+         </ul>
+      </div>
+      
+      <div id="gallery">
+          <ui:insert name="image" >
+            <ui:include src="/WEB-INF/templates/image.xhtml" />
+         </ui:insert> </div>
+        <div id="needFlight">
+        <ui:insert name="needFlight" >
+                </ui:insert> </div>
+      
+       <div id="site_content">
+        <div class="basket">
+          <ui:insert name="basket" >
+                </ui:insert>
+         
+        </div>
+      
+      <div class="content">
+          <ui:insert name="content" >
+           </ui:insert> 
+      </div>
+
+      </div>
+      </div>
+   </h:body>
+</html>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{localeController.language}"
+   xmlns="http://www.w3.org/1999/xhtml"   
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:p="http://primefaces.org/ui" 
+    xmlns:f="http://java.sun.com/jsf/core">
+    <f:view locale="#{localeController.locale}">
+    <h:head>
+     <h:outputStylesheet name="css/style.css"  />
+     </h:head>
+   <h:body>
+
+      <ui:composition template="/WEB-INF/templates/common.xhtml">
+   	    
+           <ui:define name="content">	
+                       
+        <h:form id="form">  
+      
+    <p:panel id="panelka" header="#{msg['Login']}" style="width:400px;margin:0 auto">  
+          <h:link value="#{msg['Registration']}" outcome="/client/registration" />
+        	<p:messages id="msgs"/>  
+
+<div class="ui-messages-error-summary">
+ <h:outputLabel id="exist" value="#{loginController.exist}" />
+ </div>                         
+        	<h:panelGrid columns="2" id="grid">          
+            <h:outputLabel for="login" value="#{msg['Login']}: *" />  
+            <p:inputText id="login" style="a:hover:" 
+                        value="#{loginController.login}" />                        
+                       
+               
+                      
+            <h:outputLabel for="password" value="#{msg['Password']}: *" />  
+             <p:password id="password"   
+                        value="#{loginController.password}" required="true"   
+                        requiredMessage="Password is required."/>  
+        </h:panelGrid>  
+            
+      
+
+    <h:panelGrid columns="6" cellpadding="5" style="margin:0 auto"> 
+            <p:commandButton value="Login" id="btnAll" process="@all" render="form" 
+                    action="#{loginController.doFindUser()}"
+                    style="background:linear-gradient(to bottom, #ffde03 0%,#febd03 100%) !important;">   
+                     <f:ajax render="msgs" listener="#{loginController.notExist}" />                                                         
+        </p:commandButton>  
+                                                                      
+                      
+           </h:panelGrid>  
+   </p:panel>
+  	</h:form>
+            
+        </ui:define>
+        
+     <ui:define name="basket"> 
+           
+        <ui:include src="/WEB-INF/templates/adver.xhtml" /> 
+       </ui:define>	     
+      </ui:composition>
+      
+   </h:body>
+   </f:view>
+</html>	

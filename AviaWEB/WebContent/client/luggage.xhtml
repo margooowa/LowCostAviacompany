@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{localeController.language}"
+	xmlns="http://www.w3.org/1999/xhtml"   
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:p="http://primefaces.org/ui" 
+    xmlns:f="http://java.sun.com/jsf/core">
+     <f:view locale="#{localeController.locale}">
+    <h:head>   
+    
+    <h:outputStylesheet name="css/style.css" />
+    </h:head>
+   <h:body>         
+   		<ui:composition template="/WEB-INF/templates/common.xhtml">
+      <ui:define name="favicon">
+        <ui:include src="/WEB-INF/templates/faviconSub.xhtml" /> 
+       </ui:define>
+   	    <ui:define name="header">
+        <ui:include src="/WEB-INF/templates/headerSub.xhtml" /> 
+       </ui:define>	
+           <ui:define name="content">                                 
+        <h:form id="formikk" header="Login"> 
+         <p:growl id="growl" showDetail="true"/>	      
+    <p:panel
+    style="margin-bottom:10px; 
+	background-image:url(../resources/images/bags.png);
+	background-position: right;
+	background-repeat: no-repeat;
+	height:160px;
+	width:650px;margin:0 auto">  
+	<h2>#{msg['Luggage']}</h2><h4>(#{msg['from']} #{homeController.selectedFlightTo.getFromCity()} #{msg['to']} 
+	#{homeController.selectedFlightTo.getToCity()})</h4>    
+	 <p></p>    
+        <p:selectOneButton id="LugOneWay" value="#{bookingController.luggageTo}"  required="true">  
+            <f:selectItem  itemLabel="#{msg['No bags']}" itemValue="0" />  
+            <f:selectItem itemLabel="15kg(25.00$)" itemValue="25" /> 
+            <f:selectItem itemLabel="25kg(35.00$)" itemValue="35" /> 
+            <f:ajax render=":basketForm" />
+              </p:selectOneButton> 
+    </p:panel>  
+    <p></p>
+     <p:panel 
+    style="margin-bottom:10px; 
+	background-image:url(../resources/images/seats.png);
+	background-position: right;
+	background-repeat: no-repeat;
+	height:180px;
+	width:650px;margin:0 auto">  
+	<h2>#{msg['Priority']}</h2><h4>(#{msg['from']} #{homeController.selectedFlightTo.getFromCity()} #{msg['to']} 
+	#{homeController.selectedFlightTo.getToCity()})</h4>
+	 <p></p>
+	 <p:selectOneButton id="PriorOneWay" value="#{bookingController.priorityTo}" required="true">  
+            <f:selectItem  itemLabel="#{msg['Priority']}(25.00$)" itemValue="25" />  
+            <f:selectItem itemLabel="#{msg['No priority']}" itemValue="0" /> 
+            <f:ajax render=":basketForm" />
+              </p:selectOneButton> 
+    </p:panel>  
+  <p></p>
+  <p:panel rendered="#{homeController.selectedFlightFrom != 'Two'}"
+    style="margin-bottom:10px; 
+	background-image:url(../resources/images/bags.png);
+	background-position: right;
+	background-repeat: no-repeat;
+	height:160px;
+	width:650px;margin:0 auto">  
+	<h2>#{msg['Luggage']}</h2><h4>(#{msg['from']} #{homeController.selectedFlightTo.getToCity()} #{msg['to']} 
+	#{homeController.selectedFlightTo.getFromCity()})</h4>  
+	 <p></p>      
+        <p:selectOneButton id="LugTwoWay" value="#{bookingController.luggageFrom}"  required="true">  
+            <f:selectItem  itemLabel="#{msg['No bags']}" itemValue="0" />  
+            <f:selectItem itemLabel="15kg(25.00$)" itemValue="25" /> 
+            <f:selectItem itemLabel="25kg(35.00$)" itemValue="35" /> 
+            <f:ajax render=":basketForm" />
+              </p:selectOneButton> 
+    </p:panel>  
+      <p></p>
+     <p:panel rendered="#{homeController.way == 'Two'}"
+    style="margin-bottom:10px; 
+	background-image:url(../resources/images/seats.png);
+	background-position: right;
+	background-repeat: no-repeat;
+	height:180px;
+	width:650px;margin:0 auto">  
+	<h2>#{msg['Priority']}</h2><h4>(#{msg['from']} #{homeController.selectedFlightTo.getToCity()} #{msg['to']}
+	 #{homeController.selectedFlightTo.getFromCity()}) </h4>
+	 <p:selectOneButton id="PriorTwoWay" value="#{bookingController.priorityFrom}" required="true"> 
+	  <p></p> 
+            <f:selectItem  itemLabel="#{msg['Priority']}(25.00$)" itemValue="25" />  
+            <f:selectItem itemLabel="#{msg['No priority']}" itemValue="0" /> 
+             <f:ajax render=":basketForm" />
+              </p:selectOneButton>  
+    </p:panel>  
+    <h:panelGrid style="margin:0 auto" >  
+        <p:commandButton value="#{msg['Book your flight']}" id="btnNeedFlight" style="background:linear-gradient(to bottom, #ffde03 0%,#febd03 100%) !important;"
+          process="@all"  update="formikk" action="#{bookingController.writeBookingTo}" >  
+          <f:ajax render="growl" listener="#{bookingController.showMessage}" />          
+           </p:commandButton>           
+                     </h:panelGrid>
+  	</h:form>
+        </ui:define>
+        
+         <ui:define name="basket">          
+        <h:form id="basketForm" class="basket" >
+ 		<h2 class="bg1">#{msg['Booking summary']}</h2>
+          <ol class="lstn">
+         <li class="ng-scope">
+         <h:panelGroup rendered="#{not empty homeController.selectedFlightTo}">
+         <h4> <div style="float: left"><img border="0" src="../resources/images/FlightsTo.png" ></img></div>
+         <b class="ng-binding">#{homeController.selectedFlightTo.getFromCity()} → #{homeController.selectedFlightTo.getToCity()}</b><br/>
+         <small class="ng-binding">#{msg['Date']}: #{homeController.selectedFlightTo.getDateDeparture()}, #{msg['Time']}: #{homeController.selectedFlightTo.getTimeDeparture()}</small> </h4>
+         <summary><span >#{homeController.amount} #{msg['Amount']}, </span>
+         <span >#{homeController.priceTo()} $</span></summary>
+         </h:panelGroup>
+         <h:panelGroup rendered="#{not empty bookingController.luggageTo}">
+        <summary>
+         <span>#{msg['Luggage']}</span>
+      	<span >#{bookingController.luggageTo} $</span>	</summary>
+      	</h:panelGroup>
+      	 <h:panelGroup rendered="#{not empty bookingController.priorityTo}">
+        <summary>
+         <span>#{msg['Priority']}</span>
+      	<span >#{bookingController.priorityTo} $</span>	</summary>
+      	</h:panelGroup>
+      	</li>
+      	<li  class="ng-scope">
+      	<h:panelGroup rendered="#{not empty homeController.selectedFlightFrom}">
+      	<h4><div style="float: left"><img border="0" src="../resources/images/FlightFrom.png" ></img></div>
+      	<b class="ng-binding">#{homeController.selectedFlightFrom.getFromCity()} → #{homeController.selectedFlightFrom.getToCity()} </b><br/>
+      	<small class="ng-binding">#{msg['Date']}: #{homeController.selectedFlightFrom.getDateDeparture()}, #{msg['Time']}: #{homeController.selectedFlightFrom.getTimeDeparture()}</small>
+      	</h4><summary>
+      	<span >#{homeController.amount} #{msg['Amount']}, </span>
+      	<span >#{homeController.priceFrom()} $</span></summary>
+         </h:panelGroup>	
+         <h:panelGroup rendered="#{not empty bookingController.luggageFrom}">
+        <summary>
+         <span>#{msg['Luggage']}</span>
+      	<span >#{bookingController.luggageFrom} $</span>	</summary>
+      	</h:panelGroup>
+      	 <h:panelGroup rendered="#{not empty bookingController.priorityFrom}">
+        <summary>
+         <span>#{msg['Priority']}</span>
+      	<span >#{bookingController.priorityFrom} $</span>	</summary>
+      	</h:panelGroup>	
+		</li></ol>
+		<h:panelGroup rendered="#{not empty homeController.selectedFlightTo}">
+		<h2 style="font:normal 150% 'News Cycle' !important;">#{msg['TOTAL']} #{bookingController.totalService()}$ (#{bookingController.currentUAH}UAH )  </h2>
+		</h:panelGroup>   		   		   
+         
+         <div style="background-color: white !important"> 
+         <p></p> 
+         <p></p>           
+         </div>  
+          
+        <div class="currency">                
+       <h2> #{msg['currency']}: 
+        1USD - #{homeController.currencyDollar}UAH</h2>
+     </div>
+ 		 
+         <div style="background-color: white !important"> 
+         <p></p> 
+         <p></p> 
+         <p></p> 
+       <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+           codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab"
+    	   id="TeamStructure" width="230" height="200">
+
+    <param name="movie" value="Rome.swf" />
+    <param name="quality" value="high" />
+    <param name="bgcolor" value="#FFFFFF" />
+    <param name="allowScriptAccess" value="sameDomain" />
+    <!--[if !IE]> <-->
+    <object data="../resources/images/Rome.swf"
+            width="230" height="200" type="application/x-shockwave-flash" align="middle">
+        <param name="name" value="Bedrukt-web" />
+        <param name="movie" value="TeamStructure.swf" />
+        <param name="quality" value="high" />
+        <param name="play" value="true" />
+        <param name="loop" value="false" />
+        <param name="bgcolor" value="#FFFFFF" />
+        <param name="allowScriptAccess" value="sameDomain" />
+        <param name="pluginurl" value="http://www.macromedia.com/go/getflashplayer" />
+   </object>   
+    <!--> <![endif]-->
+	   
+<p></p>	   
+<p></p>	   
+<p></p>	  
+
+
+    <param name="movie" value="Paris.swf" />
+    <param name="quality" value="high" />
+    <param name="bgcolor" value="#FFFFFF" />
+    <param name="allowScriptAccess" value="sameDomain" />   
+    <object data="../resources/images/Paris.swf"
+            width="230" height="200" type="application/x-shockwave-flash" align="middle">
+        <param name="name" value="Bedrukt-web" />
+        <param name="movie" value="TeamStructure.swf" />
+        <param name="quality" value="high" />
+        <param name="play" value="true" />
+        <param name="loop" value="false" />
+        <param name="bgcolor" value="#FFFFFF" />
+        <param name="allowScriptAccess" value="sameDomain" />
+        <param name="pluginurl" value="http://www.macromedia.com/go/getflashplayer" />
+    </object> 
+    </object>
+     </div>
+     </h:form>        
+          </ui:define>
+        
+      </ui:composition>
+      
+   </h:body>
+   </f:view>
+</html>	

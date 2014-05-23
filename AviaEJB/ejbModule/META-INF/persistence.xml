@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="LowCostPersistance" transaction-type="JTA">
+	<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<jta-data-source>Low_Cost</jta-data-source>
+		<class>com.lowcost.entity.User</class>
+		<class>com.lowcost.entity.Bookingtable</class>
+		<class>com.lowcost.entity.Soldticket</class>
+		<class>com.lowcost.entity.Usertype</class>
+		<class>com.lowcost.entity.Timetable</class>
+		<properties>
+<!-- 		<property name="eclipselink.ddl-generation" value="create-or-extend-tables" /> -->
+		<property name="hibernate.hbm2ddl.auto" value="update"/>
+		 </properties>
+	</persistence-unit>
+	</persistence>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{localeController.language}"
+	xmlns="http://www.w3.org/1999/xhtml"   
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:p="http://primefaces.org/ui" 
+    xmlns:f="http://java.sun.com/jsf/core">
+    <f:view locale="#{localeController.locale}">
+    <h:head>
+    
+    </h:head>
+   <h:body>      
+      <ui:composition template="/WEB-INF/templates/common.xhtml"> 
+      <ui:define name="favicon">
+        <ui:include src="/WEB-INF/templates/faviconSub.xhtml" /> 
+       </ui:define>  	
+       <ui:define name="header">
+        <ui:include src="/WEB-INF/templates/headerSub.xhtml" /> 
+       </ui:define>	    
+           <ui:define name="content">	                       
+        <h:form id="form">        
+    <p:panel header="#{msg['FLIGHT OF YOUR DREAM']}">
+    <h:panelGrid id="grid">
+    <h2>#{msg['DEPART']}: #{homeController.from} #{msg['to']} #{homeController.to}</h2>            
+         <p:dataTable value="#{homeController.flightTo}" var="flights"  rowKey="#{flights.flightName}"
+                 selection="#{homeController.selectedFlightTo}" required="true"> 
+                <p:ajax event="rowSelectRadio"  listener="#{homeController.onRowSelect}" render=":basketForm" update=":basketForm"/>  
+       			<p:column headerText="#{msg['Flight name']}">  
+                 <h:outputText value="#{flights.flightName}"/>
+            </p:column>
+          <p:column headerText="#{msg['From city']}">
+                  <h:outputText value="#{flights.fromCity}"/>
+            </p:column>
+          <p:column headerText="#{msg['To city']}">
+                <h:outputText value="#{flights.toCity}"/>
+            </p:column>
+             <p:column headerText="#{msg['Departure date']}">
+                <h:outputText value="#{flights.dateDeparture}"/>
+            </p:column>
+             <p:column headerText="#{msg['Time departure']}">
+                <h:outputText value="#{flights.timeDeparture}"/>
+            </p:column> 
+            <p:column headerText="#{msg['Time Arrival']}">
+                <h:outputText value="#{flights.timeArrival}"/>
+            </p:column>
+            <p:column headerText="#{msg['Price']}$">
+                <h:outputText value="#{flights.price}"/>
+            </p:column>
+             <p:column selectionMode="single" style="width:2%" />
+             <f:facet name="footer">  
+           		  </f:facet>  
+        </p:dataTable> 
+        </h:panelGrid> 
+        <p></p>
+        <p></p>
+        <p></p>
+        <h:panelGrid id="gridd" rendered="#{homeController.way == 'Two'}">
+        <h2>#{msg['RETURN']}: #{homeController.to} #{msg['to']} #{homeController.from}</h2> 
+        <p:dataTable value="#{homeController.flightFrom}" var="flights"  rowKey="#{flights.flightName}"
+                 selection="#{homeController.selectedFlightFrom}" required="true">
+                 <p:ajax event="rowSelectRadio"  listener="#{homeController.onRowSelect}" render=":basketForm" update=":basketForm"/>
+            <p:column headerText="#{msg['Flight name']}"> 
+                 <h:outputText value="#{flights.flightName}"/>
+            </p:column>
+          <p:column headerText="#{msg['From city']}">
+                  <h:outputText value="#{flights.fromCity}"/>
+            </p:column>
+          <p:column headerText="#{msg['To city']}">
+                <h:outputText value="#{flights.toCity}"/>
+            </p:column>
+             <p:column headerText="#{msg['Departure date']}">
+                <h:outputText value="#{flights.dateDeparture}"/>
+            </p:column>
+             <p:column headerText="#{msg['Time departure']}">
+                <h:outputText value="#{flights.timeDeparture}"/>
+            </p:column> 
+            <p:column headerText="#{msg['Time Arrival']}">
+                <h:outputText value="#{flights.timeArrival}"/>
+            </p:column>
+            <p:column headerText="#{msg['Price']}$">
+                <h:outputText value="#{flights.price}"/>
+            </p:column>
+             <p:column selectionMode="single" style="width:2%" />                   		  
+        </p:dataTable>  
+        </h:panelGrid> 
+        <h:panelGrid id="griddd">
+          <p:commandButton id="Choose" value="#{msg['Choose your flight']}"  
+                              action="#{homeController.showFlight()}"/>
+                                             </h:panelGrid>     
+    </p:panel>   
+         </h:form>    
+        </ui:define>
+        
+        
+          <ui:define name="basket">          
+        <h:form id="basketForm" class="basket" >
+ 		<h2 class="bg1">#{msg['Booking summary']}</h2>
+          <ol class="lstn">
+         <li class="ng-scope">
+         <h:panelGroup rendered="#{not empty homeController.selectedFlightTo}">
+         <h4> <div style="float: left"><img border="0" src="../resources/images/FlightsTo.png" ></img></div>
+         <b class="ng-binding">#{homeController.selectedFlightTo.getFromCity()} → #{homeController.selectedFlightTo.getToCity()}</b><br/>
+         <small class="ng-binding">#{msg['Date']}: #{homeController.selectedFlightTo.getDateDeparture()}, #{msg['Time']}: #{homeController.selectedFlightTo.getTimeDeparture()}</small> </h4>
+         <summary><span >#{homeController.amount} #{msg['Amount']}, </span>
+         <span >#{homeController.priceTo()} $</span></summary>
+         </h:panelGroup>
+
+      	</li>
+      	<li  class="ng-scope">
+      	<h:panelGroup rendered="#{not empty homeController.selectedFlightFrom}">
+      	<h4><div style="float: left"><img border="0" src="../resources/images/FlightFrom.png" ></img></div>
+      	<b class="ng-binding">#{homeController.selectedFlightFrom.getFromCity()} → #{homeController.selectedFlightFrom.getToCity()} </b><br/>
+      	<small class="ng-binding">#{msg['Date']}: #{homeController.selectedFlightFrom.getDateDeparture()}, #{msg['Time']}: #{homeController.selectedFlightFrom.getTimeDeparture()}</small>
+      	</h4><summary>
+      	<span >#{homeController.amount} #{msg['Amount']}, </span>
+      	<span >#{homeController.priceFrom()} $</span></summary>
+         	</h:panelGroup>		
+		</li></ol>
+		<h:panelGroup rendered="#{not empty homeController.selectedFlightTo}">
+		<h2 style="font:normal 150% 'News Cycle' !important;">#{msg['TOTAL']} #{homeController.total()}$ (#{homeController.totalUAH}UAH )  </h2>
+		</h:panelGroup>   		   		   
+         
+         <div style="background-color: white !important"> 
+         <p></p> 
+         <p></p>           
+         </div>  
+          
+        <div class="currency">                
+       <h2> #{msg['currency']}: 
+        1USD - #{homeController.currencyDollar}UAH</h2>
+     </div>
+                 
+         <div style="background-color: white !important"> 
+         <p></p> 
+         <p></p> 
+         <p></p> 
+        <ui:include src="/WEB-INF/templates/adverSub.xhtml" /> 
+     </div>
+     
+      
+     </h:form>
+          </ui:define>  
+        
+      </ui:composition>      
+   </h:body>
+   </f:view>
+</html>	

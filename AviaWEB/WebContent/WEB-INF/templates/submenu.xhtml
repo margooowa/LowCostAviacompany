@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{localeController.language}"
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		 xmlns:h="http://java.sun.com/jsf/html"
+		 xmlns:p="http://primefaces.org/ui"
+		 xmlns:f="http://java.sun.com/jsf/core">
+	<f:view locale="#{localeController.locale}">
+	<h:head>
+	<h:outputStylesheet name="css/style.css"  />
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+       
+   </h:head>
+<body>
+<div >
+ <ui:composition>
+     	<h:form id="formSubmenu">
+          <h:panelGroup rendered="#{not empty loginController.user}"> 
+        <ul> <li>        
+         <h:selectOneMenu value="#{localeController.language}" onchange="submit()">
+                <f:selectItem itemValue="en" itemLabel="English" />                
+                <f:selectItem itemValue="de" itemLabel="German" />
+                <f:selectItem itemValue="uk" itemLabel="Ukrainian" />
+            </h:selectOneMenu> </li>
+      <li>  <h:outputLabel for="to" value=" #{msg['Welcome']}, #{loginController.user.getName()}" />  </li>       
+         <li><p:commandLink id="aax" action="#{loginController.invalid()}" >  
+        <h:outputText value="#{msg['Logout']}" />  
+    		</p:commandLink></li></ul>
+    		</h:panelGroup>
+            
+       <h:panelGroup rendered="#{empty loginController.user}">
+          <ul><li>        
+         <h:selectOneMenu value="#{localeController.language}" onchange="submit()">
+                <f:selectItem itemValue="en" itemLabel="English" />
+                <f:selectItem itemValue="de" itemLabel="German" />
+                <f:selectItem itemValue="uk" itemLabel="Ukrainian" />
+            </h:selectOneMenu> </li>     
+                <li>
+                 <h:link value="#{msg['Login']}" outcome="/login" /></li>
+                <li> <h:link value="#{msg['Registration']}" outcome="/client/registration" /></li>
+            </ul></h:panelGroup> 
+            </h:form>     
+    </ui:composition>
+</div>
+</body>
+</f:view>
+</html>

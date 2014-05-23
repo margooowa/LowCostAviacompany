@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  <context-param>
+    <description>State saving method: 'client' or 'server' (=default). See JSF Specification 2.5.2</description>
+    <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+    <param-value>client</param-value>
+  </context-param>
+  <context-param>
+    <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+    <param-value>resources.application</param-value>
+  </context-param>
+  <context-param>
+    <param-name>javax.faces.PROJECT_STAGE</param-name>
+    <param-value>Development</param-value>
+</context-param>
+  <context-param>
+      <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+      <param-value>.xhtml</param-value>
+     </context-param>
+     <context-param> 
+<param-name>primefaces.THEME</param-name> 
+<param-value>afternoon</param-value> 
+</context-param>
+  <listener>
+    <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+  </listener>
+  <servlet>
+    <servlet-name>Faces Servlet</servlet-name>
+    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Faces Servlet</servlet-name>
+    <url-pattern>*.privet</url-pattern>
+  </servlet-mapping>
+      <welcome-file-list>
+        <welcome-file>home.privet</welcome-file>
+    </welcome-file-list>
+    <error-page>
+	<error-code>404</error-code>
+	<location>/error/404.xhtml</location>
+	</error-page>	
+  <error-page>
+    <exception-type>java.io.FileNotFoundException</exception-type>
+    <location>/error/404.xhtml</location>
+</error-page>
+<error-page>
+    <exception-type>javax.servlet.ServletException</exception-type>
+    <location>/error/404.xhtml</location>
+</error-page>
+    <session-config>
+        <session-timeout>
+            20
+        </session-timeout>
+    </session-config>
+<!--     1 -->
+    <filter>
+        <filter-name>FilterLoginClient</filter-name>
+        <filter-class>com.lowcost.filter.FilterLoginClient</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>FilterLoginClient</filter-name>
+        <url-pattern>/client/luggage.privet</url-pattern>
+         <url-pattern>/client/cabinet.privet</url-pattern>
+    </filter-mapping>
+<!--     2 -->
+    <filter>
+        <filter-name>FilterLoginAdmin</filter-name>
+        <filter-class>com.lowcost.filter.FilterLoginAdmin</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>FilterLoginAdmin</filter-name>
+        <url-pattern>/admin/*</url-pattern>       
+    </filter-mapping>
+<!--     3 -->
+     <filter>
+        <filter-name>FilterFlightInfo</filter-name>
+        <filter-class>com.lowcost.filter.FilterFlightInfo</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>FilterFlightInfo</filter-name>
+        <url-pattern>/client/luggage.privet</url-pattern>
+         <url-pattern>/client/needFlightTwo.privet</url-pattern>
+    </filter-mapping>
+<!--     4 -->
+    <filter>
+        <filter-name>FilterSession</filter-name>
+        <filter-class>com.lowcost.filter.FilterSession</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>FilterSession</filter-name>
+        <url-pattern>/admin/*</url-pattern>
+        <url-pattern>/manager/*</url-pattern>
+        <url-pattern>/client/*</url-pattern>
+    </filter-mapping>
+ <!--     5 -->
+    <filter>
+        <filter-name>FilterLoginManager</filter-name>
+        <filter-class>com.lowcost.filter.FilterLoginManager</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>FilterLoginManager</filter-name>
+           <url-pattern>/manager/*</url-pattern>
+    </filter-mapping>   
+</web-app>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:p="http://primefaces.org/ui" 
+    xmlns:f="http://java.sun.com/jsf/core">
+   <h:body>      
+      <ui:composition template="/WEB-INF/templates/commonAdmin.xhtml">
+      <ui:define name="favicon">
+        <ui:include src="/WEB-INF/templates/faviconSub.xhtml" /> 
+       </ui:define>	   
+      <ui:define name="header">
+        <ui:include src="/WEB-INF/templates/headerSub.xhtml" /> 
+       </ui:define>	  
+      <ui:define name="submenu" >
+            <h:form id="formSubmenu">  <ul>         
+       <li> <h:outputLabel for="to" value=" Welcome, #{adminController.user.getName()}" /></li>         
+         <li> <p:commandLink id="ajax" update=":formSubmenu" action="#{adminController.invalid()}" >  
+        <h:outputText value="Logout" />  
+    		</p:commandLink></li>	
+    		</ul>
+    		</h:form>
+         </ui:define>	    
+           <ui:define name="content">	                       
+        <h:form id="form">        
+    <p:panel header="Personal cabinet" id="panel" style="width:600px;margin:0 auto">
+    <h:panelGrid id="grid">
+<<<<<<< HEAD
+    <h2>Managers</h2>            
+=======
+    <h3>Managers</h3>            
+>>>>>>> 50da4acd83591adeee4d399cc258582f32ab9245
+         <p:dataTable value="#{adminController.managers}" var="client"> 
+                
+       		 <p:column headerText="Login" filterBy="login">
+                  <h:outputText value="#{client.login}"/>
+            </p:column>
+            <p:column headerText="Name">
+                  <h:outputText value="#{client.name}"/>
+            </p:column>
+          <p:column headerText="Surname">
+                <h:outputText value="#{client.surname}"/>
+            </p:column>
+                <p:column headerText="Email">
+                <h:outputText value="#{client.email}"/>
+            </p:column> 
+            <p:column headerText="Phone">
+                <h:outputText value="#{client.phone}"/>
+            </p:column>
+        </p:dataTable> 
+        </h:panelGrid> 
+        <p></p>
+        <p></p>
+        <p></p>
+      
+        <h2>New manager</h2> 
+      <h:panelGrid columns="3">   
+                        
+            <h:outputLabel for="login" value="Login: *" />  
+            <p:inputText id="login" value="#{adminController.loginCreate}" label="Login" validator="#{adminController.validateLoginManager}" required="true">  
+              <p:ajax update="msgLogin" event="blur" />  
+            </p:inputText>  
+            <p:message for="login" id="msgLogin" display="icon"/> 
+            
+             <h:outputLabel for="pwd1" value="Password : *" />  
+            <p:password id="pwd1" value="#{adminController.passwordCreate}" match="pwd2" label="Password 1" required="true" feedback="true"/>  
+            <p:message for="pwd1" id="msgPwd1" display="icon"/> 
+  
+            <h:outputLabel for="pwd2" value="Confirm password : *" />  
+            <p:password id="pwd2" value="#{adminController.passwordCreate}" label="Password 2" required="true"/> 
+            <p:message for="pwd2" id="msgPwd2" display="icon"/> 
+            
+             <h:outputLabel for="firstname" value="Firstname: *" />  
+            <p:inputText id="firstname" value="#{adminController.name}" required="true" label="Firstname">  
+                <f:validateLength minimum="2" />  
+            </p:inputText>   
+            <p:message for="firstname" display="icon"/>  
+  
+            <h:outputLabel for="surname" value="Surname: *" />  
+            <p:inputText id="surname" value="#{adminController.surname}" label="Surname" required="true">  
+                <f:validateLength minimum="2" />  
+                <p:ajax update="msgSurname" event="keyup" />  
+            </p:inputText>  
+            <p:message for="surname" id="msgSurname" display="icon"/> 
+               
+        <h:outputLabel for="email" value="Email: *" />  
+            <p:inputText id="email" value="#{adminController.email}" label="Email" required="true">  
+                <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /> 
+                <p:ajax update="msgEmail" event="keyup" />  
+            </p:inputText>  
+            <p:message for="email" id="msgEmail" display="icon"/>
+            
+            <h:outputLabel for="phone" value="Phone: *" />  
+            <p:inputMask id="phone" value="#{adminController.phone}" label="Phone" mask="(999)999-99-99" required="true">  
+                <f:validateLength minimum="2" />  
+                <p:ajax update="msgPhone" event="keyup" />  
+            </p:inputMask>  
+            <p:message for="phone" id="msgPhone" display="icon"/>  
+  
+        <p:commandButton id="btn" value="Save" update="panel" style="background:linear-gradient(to bottom, #ffde03 0%,#febd03 100%) !important;" 
+        actionListener="#{adminController.doCreateManager}"/>  
+         </h:panelGrid>
+    </p:panel>   
+         </h:form>    
+               </ui:define>    
+        
+               
+      </ui:composition>      
+   </h:body>
+</html>	

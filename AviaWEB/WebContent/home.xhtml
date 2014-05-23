@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{localeController.language}"
+xmlns="http://www.w3.org/1999/xhtml"   
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core">
+    <f:view locale="#{localeController.locale}">
+    <h:head> 
+       <h:outputStylesheet name="css/style.css"  />
+   		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+       </h:head>
+   <h:body>
+   
+      <ui:composition template="/WEB-INF/templates/common.xhtml">	
+         <ui:define name="image">	
+                        <ui:insert name="title"><img border="0" width="1160" src="resources/images/Ukrwings.jpg"></img></ui:insert>
+                            </ui:define>
+         
+          <ui:define name="needFlight">	
+<h:form id="formik">  
+  
+    <p:panel id="panel" header="#{msg['FindNEED']}" style="background: rgba( 239, 241, 247, 0.78) !important">  
+  
+        <h:panelGrid id="gridd" columns="2">  
+        <f:facet name="header">  
+                <p:messages />  
+            </f:facet> 
+            <h:outputLabel for="from" value="#{msg['Flying from']}: *" />  
+            <h:selectOneMenu id="from" value="#{homeController.from}" required="true" style="width:168px !important">  
+                <f:selectItem itemLabel="#{msg['Select One']}" itemValue="" />  
+                <f:selectItems value="#{homeController.fromList()}" />
+                <p:ajax update="to" />  
+            </h:selectOneMenu>  
+               
+            <h:outputLabel for="to" value="#{msg['Flying to']}: *" />  
+            <h:selectOneMenu id="to" value="#{homeController.to}" style="width:168px " required="true">  
+                <f:selectItem itemLabel="#{msg['Select One']}" itemValue="" />  
+                <f:selectItems value="#{homeController.toList()}" /> 
+               </h:selectOneMenu> 
+             </h:panelGrid> 
+             
+             <h:panelGrid id="gridddd" columns="1">  
+        	 <p:selectOneButton id="way" value="#{homeController.way}" required="true" >  
+            <f:selectItem  itemLabel="#{msg['One way']}" itemValue="One" />  
+            <f:selectItem itemLabel="#{msg['Return']}" itemValue="Two" /> 
+            <f:ajax render="@form" />
+              </p:selectOneButton> 
+             </h:panelGrid>             			 
+   			              	
+         	<div id="not">
+              <h:panelGrid id="griddddd" columns="2">  
+             <h:outputLabel id="dep" for="dep" value="#{msg['Departure date']} "/>  
+  			<p:calendar value="#{homeController.dateDeparture}" mindate="#{homeController.today}" id="departure" pattern="dd/MM/yyyy" required="true">
+  			<p:ajax event="dateSelect" listener="#{homeController.handleDateSelect}" update="return" />
+  			</p:calendar>
+  			 <h:outputLabel id="ret" rendered="#{homeController.way == 'Two'}" for="ret" style="width:97px" value="#{msg['Return date']}"/>
+  			<p:calendar id="return"  mindate="#{homeController.dateDeparture}" value="#{homeController.dateReturn}" rendered="#{homeController.way == 'Two'}" pattern="dd/MM/yyyy" />             
+            <h:outputLabel id="ffff" for="amount" value="#{msg['Amount Tickets']}"/>
+             <p:spinner id="amount" style="background-color:#F2F5A9 !important" value="#{homeController.amoutTickets}" min="1" max="10" required="true"/>  
+             </h:panelGrid> 
+             </div>
+            
+              <h:panelGrid columns="2" >  
+        <p:commandButton value="#{msg['Find your flight']}" id="btnNeedFlight" process="@all"  update="formik" 
+                    action="#{homeController.findNeedFlightTwo}">
+                    <p:resetInput target="panel" />  
+                           </p:commandButton>                             
+              </h:panelGrid>         
+    </p:panel>
+                                                         
+</h:form> 
+     </ui:define>
+      </ui:composition>
+      
+   </h:body>
+   </f:view>
+</html>	

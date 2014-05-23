@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:p="http://primefaces.org/ui" 
+    xmlns:f="http://java.sun.com/jsf/core">
+     <h:body>      
+      <ui:composition template="/WEB-INF/templates/commonAdmin.xhtml">  
+      <ui:define name="favicon">
+        <ui:include src="/WEB-INF/templates/faviconSub.xhtml" /> 
+       </ui:define> 
+      <ui:define name="header">
+        <ui:include src="/WEB-INF/templates/headerSub.xhtml" /> 
+       </ui:define>	
+      <ui:define name="submenu" >
+            <h:form id="formSubmenu">  <ul>         
+       <li> <h:outputLabel for="to" value=" Welcome, #{adminController.user.getName()}" /></li>         
+         <li> <p:commandLink id="ajax" update=":formSubmenu" action="#{adminController.invalid()}" >  
+        <h:outputText value="Logout" />  
+    		</p:commandLink></li>	
+    		</ul>
+    		</h:form>
+         </ui:define>  	    
+           <ui:define name="content">	                       
+        <h:form id="form"> 
+        <p:growl id="messages" showDetail="true"/>        
+    <p:tabView id="tabView" dynamic="true" cache="true">
+    <p:tab id="tba1" title="CLIENTS"> 
+    <h:panelGrid id="grid" style="margin:0 auto"> 
+    <h2> Manager</h2>             
+         <p:dataTable value="#{managController.users}" var="client"> 
+                
+       			
+          <p:column headerText="Login" filterBy="login">
+                  <h:outputText value="#{client.login}"/>
+            </p:column>
+            <p:column headerText="Name">
+                  <h:outputText value="#{client.name}"/>
+            </p:column>
+          <p:column headerText="Surname">
+                <h:outputText value="#{client.surname}"/>
+            </p:column>
+                <p:column headerText="Email">
+                <h:outputText value="#{client.email}"/>
+            </p:column> 
+            <p:column headerText="Phone">
+                <h:outputText value="#{client.phone}"/>
+            </p:column>
+           
+        </p:dataTable> 
+        </h:panelGrid> 
+        </p:tab>
+        
+        <p:tab id="tba2" title="ALL FLIGHTS"> 
+        <h:panelGrid id="gridd" >
+        <h2>All flights</h2> 
+       <p:dataTable value="#{managController.flights}" var="flight"> 
+                
+       			<p:column headerText="Flight Name" filterBy="flightName">  
+                 <h:outputText value="#{flight.flightName}"/>
+            </p:column>
+          <p:column headerText="From">
+                  <h:outputText value="#{flight.fromCity}"/>
+            </p:column>
+            <p:column headerText="To">
+                  <h:outputText value="#{flight.toCity}"/>
+            </p:column>
+          <p:column headerText="Date Departure" filterBy="dateDeparture">
+                <h:outputText value="#{flight.dateDeparture}"/>
+            </p:column>
+         <p:column headerText="Time Departure">
+                <h:outputText value="#{flight.timeDeparture}"/>
+            </p:column> 
+            <p:column headerText="Date Arrival">
+                <h:outputText value="#{flight.dateArrival}"/>
+            </p:column>
+            <p:column headerText="Time Arrival">
+                <h:outputText value="#{flight.timeArrival}"/>
+            </p:column>
+             <p:column headerText="Amount tickets">
+                  <h:outputText value="#{flight.amoutTickets}"/>
+            </p:column>
+        </p:dataTable> 
+        </h:panelGrid>
+        </p:tab>
+         <p:tab id="tba3" title="NEW FLIGHT"> 
+         <h2>New flight</h2>
+                <p:panelGrid columns = "2" id="panel">
+          <h:outputLabel for="name" value="Flight name: *" />  
+            <p:inputText id="login" value="#{managController.flightName}"  >  
+          </p:inputText>
+          </p:panelGrid>
+          <p:panelGrid columns = "4">
+          <h:outputLabel for="from" value="From city: *" />  
+            <h:selectOneMenu id="from" value="#{managController.fromCity}" >  
+                <f:selectItem itemLabel="Select One" itemValue="" />  
+                <f:selectItems value="#{managController.fromList}" />
+              </h:selectOneMenu>  
+              <h:outputLabel for="to" value="To city: *" />   
+               <h:selectOneMenu id="to" value="#{managController.toCity}"  >  
+                <f:selectItem itemLabel="Select One" itemValue="" />  
+                <f:selectItems value="#{managController.toList}" />
+              </h:selectOneMenu>                          
+             <h:outputLabel id="dep" for="dep" value="Departure date "/>  
+  			<p:calendar value="#{managController.dateDeparture}" id="departure" pattern="dd/MM/yyyy" />
+  			 <h:outputLabel id="ret"  for="ret"  value="Arrival date"/>
+  			<p:calendar value="#{managController.dateArrival}" id="return" pattern="dd/MM/yyyy" />
+  			<h:outputLabel for="timeTo" value="Time departure: *" />
+          <p:calendar id="timeTo" value="#{managController.timeDeparture}" pattern="HH:mm:ss" timeOnly="true"/>  
+          <h:outputLabel for="timePrilet" value="Time arrival: *" />  
+           <p:calendar id="timePrilet" value="#{managController.timeArrival}" pattern="HH:mm:ss"  timeOnly="true" />
+  			<h:outputLabel for="price" value="Price: *" />  
+            <p:inputText id="price" value="#{managController.price}"  >  
+          </p:inputText>
+          <h:outputLabel for="amount" value="Amount tickets: *" />  
+            <p:inputText id="amount" value="#{managController.amoutTickets}"  >  
+          </p:inputText>          
+            </p:panelGrid><p></p>
+          <p:commandButton value="Add flight" id="btn" process="@all" update=":form" style="background:linear-gradient(to bottom, #ffde03 0%,#febd03 100%) !important;"  
+                    action="#{managController.addFlight()}" >  
+                                         </p:commandButton>
+                  </p:tab>
+         <p:tab id="tba4" title="BOOKINGS"> 
+           <h:panelGrid id="gri" >
+        <h2>Bookings</h2> 
+       <p:dataTable value="#{managController.bookings}" editable="true" editMode="cell" var="book"  selection="#{managController.selectedBook}"  rowKey="#{book.id}"> 
+                <p:ajax event="cellEdit" listener="#{managController.onCellEdit}" update=":form:messages" />
+                 <p:column headerText="#{msg['Booking Number']}">
+                  <h:outputText value="#{book.bookingNumber}"/>
+            </p:column>
+       			<p:column headerText="Clients login" filterBy="login">  
+                 <h:outputText value="#{book.user.login}"/>
+            </p:column>
+          <p:column headerText="Flight name" filterBy="flightName">
+                  <h:outputText value="#{book.timetable.flightName}"/>
+            </p:column>
+            <p:column headerText="Amount">
+                  <h:outputText value="#{book.amount}"/>
+            </p:column>
+          <p:column headerText="Booking date" filterBy="bookingDate">
+                <h:outputText value="#{book.bookingDate}"/>
+            </p:column>
+         <p:column headerText="Status">
+          <p:cellEditor>  
+                <f:facet name="output"><h:outputText value="#{book.status}" /></f:facet>  
+                <f:facet name="input">  
+                    <h:selectOneMenu value="#{book.status}" style="width:100%">  
+                        <f:selectItems value="#{managController.changeStatus()}" />  
+                    </h:selectOneMenu>  
+                </f:facet>  
+            </p:cellEditor>  
+            </p:column> 
+            <p:column headerText="Luggage"> 
+                <h:outputText value="#{book.luggage}"/>
+            </p:column>
+            <p:column headerText="Priority">
+                <h:outputText value="#{book.priority}"/>
+            </p:column>
+             <p:column headerText="Full price">
+                  <h:outputText value="#{book.fullPrice}"/>
+            </p:column>
+            <p:column headerText="Edit" selectionMode="multiple" style="width:2%" /> 
+        </p:dataTable> 
+        <p:commandButton value="Edit selected rows" id="btnAll" process="@all" update=":form" style="background:linear-gradient(to bottom, #ffde03 0%,#febd03 100%) !important;"  
+                    action="#{managController.addToSold()}">
+        </p:commandButton>   
+        </h:panelGrid>
+        </p:tab>
+           <p:tab id="tba5" title="SOLD TICKETS"> 
+            <h:panelGrid id="gru" >
+        <h2>Sold</h2> 
+       <p:dataTable value="#{managController.solds}" var="sold"> 
+                <p:column headerText="#{msg['Booking Number']}">
+                  <h:outputText value="#{sold.bookingNumber}"/>
+            </p:column>
+       			<p:column headerText="Clients login">  
+                 <h:outputText value="#{sold.user.login}"/>
+            </p:column>
+          <p:column headerText="Flight name">
+                  <h:outputText value="#{sold.timetable.flightName}"/>
+            </p:column>
+            <p:column headerText="Amount">
+                  <h:outputText value="#{sold.amount}"/>
+            </p:column>
+          <p:column headerText="Sale date">
+                <h:outputText value="#{sold.saledate}"/>
+            </p:column>
+          <p:column headerText="Luggage">
+                <h:outputText value="#{sold.luggage}"/>
+            </p:column>
+            <p:column headerText="Priority">
+                <h:outputText value="#{sold.priority}"/>
+            </p:column>
+             <p:column headerText="Full price">
+                  <h:outputText value="#{sold.fullPrice}"/>
+            </p:column>
+        </p:dataTable> 
+        </h:panelGrid>
+           </p:tab>
+  </p:tabView> 
+         </h:form>    
+               </ui:define>    
+        
+               
+      </ui:composition>      
+   </h:body>
+</html>	
